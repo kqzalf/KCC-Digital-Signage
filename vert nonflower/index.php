@@ -1,4 +1,5 @@
 <?php
+//simple php code tp pull filenames dynamically
 if ($handle = opendir('.')) {
     while (false !== ($entry = readdir($handle))) {
         if ($entry != "." && $entry != ".." && $entry != "index.php") {
@@ -12,16 +13,17 @@ if ($handle = opendir('.')) {
 <head>
 <style>
 body{
-background-color: black;
+	background-color: black;
 }
 div {
-  width: 90%;
+	vertical-align: middle
+	width: 100%;
 }
 
-img {
-  display: block;
-  width: 100%;
-  height: auto;
+img{
+	display: block;
+	width: 100%;
+	height: auto;
 }
 </style>
 </head>
