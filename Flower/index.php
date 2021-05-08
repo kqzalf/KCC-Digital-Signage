@@ -1,4 +1,5 @@
 <?php
+//simple php code tp pull filenames dynamically
 if ($handle = opendir('.')) {
     while (false !== ($entry = readdir($handle))) {
         if ($entry != "." && $entry != ".." && $entry != "index.php") {
