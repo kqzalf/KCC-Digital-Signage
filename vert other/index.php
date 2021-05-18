@@ -4,11 +4,6 @@ $scanned_directory = array_diff(scandir('.'), array('..', '.','index.php'));
 ?>
 <html>
 <head>
-<!-- disable browser caching -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<meta http-equiv="refresh" content="1800"
 <!-- css styling to center and scale images -->
 <style>
 body{
