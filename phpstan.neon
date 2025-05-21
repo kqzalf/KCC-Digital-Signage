@@ -18,14 +18,4 @@ rules:
     - PHPStan\Rules\Classes\ClassAttributesRule
     - PHPStan\Rules\Functions\CallToNonExistentFunctionRule
     - PHPStan\Rules\Methods\ReturnTypeRule
-    - PHPStan\Rules\Variables\DefinedVariableRule
-
-services:
-    -
-        class: PHPStan\Rules\Cast\UselessCastRule
-        tags:
-            - phpstan.rules.rule
-    -
-        class: PHPStan\Rules\Functions\UnusedClosureUsesRule
-        tags:
-            - phpstan.rules.rule 
+    - PHPStan\Rules\Variables\DefinedVariableRule 
