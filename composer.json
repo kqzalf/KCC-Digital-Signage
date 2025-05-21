@@ -1,0 +1,23 @@
+{
+    "name": "kcc/digital-signage",
+    "description": "KCC Digital Signage System",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "slim/slim": "^4.11",
+        "slim/psr7": "^1.6",
+        "slim/php-view": "^3.2",
+        "vlucas/phpdotenv": "^5.5",
+        "monolog/monolog": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "KCC\\DigitalSignage\\": "src/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    }
+} 
