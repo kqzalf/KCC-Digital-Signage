@@ -24,6 +24,14 @@ $app->addErrorMiddleware(true, true, true);
 // Add view renderer
 $renderer = new PhpRenderer(__DIR__ . '/../templates');
 
+// Helper function for JSON responses
+$jsonResponse = function (Response $response, mixed $data, int $status = 200): Response {
+    $response->getBody()->write(json_encode($data, JSON_THROW_ON_ERROR));
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus($status);
+};
+
 // Routes
 $app->get('/', function (Request $request, Response $response) use ($renderer): Response {
     return $renderer->render($response, 'dashboard.php');
@@ -40,20 +48,21 @@ $app->get('/display/{location}/{type}[/{orientation}]', function (Request $reque
             'display' => $display
         ]);
     } catch (\Exception $e) {
-        return $response->withStatus(404)
+        return $response
+            ->withStatus(404)
             ->withHeader('Content-Type', 'text/html')
             ->write('Content not found');
     }
 });
 
 // API Routes
-$app->post('/api/upload', function (Request $request, Response $response): Response {
+$app->post('/api/upload', function (Request $request, Response $response) use ($jsonResponse): Response {
     // Handle file uploads
     $uploadedFiles = $request->getUploadedFiles();
     $parsedBody = $request->getParsedBody();
     
     if (!is_array($parsedBody)) {
-        return $response->withStatus(400)->withJson(['error' => 'Invalid request body']);
+        return $jsonResponse($response, ['error' => 'Invalid request body'], 400);
     }
 
     $location = $parsedBody['location'] ?? '';
@@ -61,13 +70,13 @@ $app->post('/api/upload', function (Request $request, Response $response): Respo
     $orientation = $parsedBody['orientation'] ?? 'horizontal';
 
     if (empty($uploadedFiles['file'])) {
-        return $response->withStatus(400)->withJson(['error' => 'No file uploaded']);
+        return $jsonResponse($response, ['error' => 'No file uploaded'], 400);
     }
 
     try {
         $file = $uploadedFiles['file'];
         if (!$file instanceof UploadedFileInterface) {
-            return $response->withStatus(400)->withJson(['error' => 'Invalid file upload']);
+            return $jsonResponse($response, ['error' => 'Invalid file upload'], 400);
         }
 
         $uploadDir = sprintf(
@@ -87,9 +96,9 @@ $app->post('/api/upload', function (Request $request, Response $response): Respo
         $targetPath = $uploadDir . '/' . $file->getClientFilename();
         $file->moveTo($targetPath);
 
-        return $response->withJson(['success' => true]);
+        return $jsonResponse($response, ['success' => true]);
     } catch (\Exception $e) {
-        return $response->withStatus(500)->withJson(['error' => $e->getMessage()]);
+        return $jsonResponse($response, ['error' => $e->getMessage()], 500);
     }
 });
 

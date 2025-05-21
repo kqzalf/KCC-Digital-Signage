@@ -9,6 +9,7 @@ class Display
     private string $location;
     private string $contentType;
     private bool $isVertical;
+    /** @var array<int, string> */
     private array $content;
     private string $basePath;
 
@@ -29,9 +30,15 @@ class Display
             throw new \RuntimeException("Content directory not found: {$path}");
         }
 
-        $files = array_diff(scandir($path), ['.', '..', 'index.php']);
-        $this->content = array_values(array_filter($files, function ($file) {
-            return in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'mp4']);
+        $scanResult = scandir($path);
+        if ($scanResult === false) {
+            throw new \RuntimeException("Failed to scan directory: {$path}");
+        }
+
+        $files = array_diff($scanResult, ['.', '..', 'index.php']);
+        /** @var array<int, string> */
+        $this->content = array_values(array_filter($files, function (string $file): bool {
+            return in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'mp4'], true);
         }));
     }
 

@@ -6,4 +6,6 @@ parameters:
         - vendor/*
     checkMissingIterableValueType: true
     reportUnmatchedIgnoredErrors: false
-    checkGenericClassInNonGenericObjectType: false 
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - identifier: missingType.generics 
