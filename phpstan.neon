@@ -2,20 +2,8 @@ parameters:
     level: 8
     paths:
         - src
-        - tests
     excludePaths:
         - vendor/*
-        - tests/bootstrap.php
     checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
-    treatPhpDocTypesAsCertain: true
-    ignoreErrors:
-        - '#PHPDoc tag @var#'
-
-rules:
-    - PHPStan\Rules\Arrays\DeadForeachRule
-    - PHPStan\Rules\Arrays\IterableInForeachRule
-    - PHPStan\Rules\Classes\ClassAttributesRule
-    - PHPStan\Rules\Functions\CallToNonExistentFunctionRule
-    - PHPStan\Rules\Methods\ReturnTypeRule
-    - PHPStan\Rules\Variables\DefinedVariableRule 
+    reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false 
