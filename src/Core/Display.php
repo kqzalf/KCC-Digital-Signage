@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace KCC\DigitalSignage\Core;
 
 class Display
@@ -8,6 +10,7 @@ class Display
     private string $contentType;
     private bool $isVertical;
     private array $content;
+    private string $basePath;
 
     public function __construct(string $location, string $contentType, bool $isVertical = false)
     {
@@ -15,12 +18,13 @@ class Display
         $this->contentType = $contentType;
         $this->isVertical = $isVertical;
         $this->content = [];
+        $this->basePath = $_ENV['CONTENT_BASE_PATH'] ?? __DIR__ . '/../../content';
         $this->loadContent();
     }
 
     private function loadContent(): void
     {
-        $path = $this->getContentPath();
+        $path = $this->getBasePath();
         if (!is_dir($path)) {
             throw new \RuntimeException("Content directory not found: {$path}");
         }
@@ -31,13 +35,12 @@ class Display
         }));
     }
 
-    private function getContentPath(): string
+    private function getBasePath(): string
     {
-        $base = $_ENV['CONTENT_BASE_PATH'] ?? __DIR__ . '/../../content';
         $orientation = $this->isVertical ? 'vertical' : 'horizontal';
         return sprintf(
             '%s/%s/%s/%s',
-            $base,
+            $this->basePath,
             $this->location,
             $orientation,
             $this->contentType
@@ -55,13 +58,19 @@ class Display
     public function getContentPath(): string
     {
         $current = $this->getCurrentContent();
-        return $current ? $this->getContentPath() . '/' . $current : '';
+        if ($current === null) {
+            return '';
+        }
+        return $this->getBasePath() . '/' . $current;
     }
 
     public function getContentType(): string
     {
         $current = $this->getCurrentContent();
-        return $current ? strtolower(pathinfo($current, PATHINFO_EXTENSION)) : '';
+        if ($current === null) {
+            return '';
+        }
+        return strtolower(pathinfo($current, PATHINFO_EXTENSION));
     }
 
     public function isVideo(): bool
