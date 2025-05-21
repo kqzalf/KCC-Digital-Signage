@@ -2,6 +2,13 @@
     "name": "kcc/digital-signage",
     "description": "KCC Digital Signage System",
     "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "KCC Digital Team",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": ">=7.4",
         "slim/slim": "^4.11",
@@ -42,5 +49,14 @@
             "@php vendor/bin/phpstan analyze"
         ],
         "test": "phpunit"
-    }
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 } 
