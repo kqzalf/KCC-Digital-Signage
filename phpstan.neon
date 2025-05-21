@@ -1,0 +1,23 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - vendor/*
+        - tests/bootstrap.php
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+    treatPhpDocTypesAsCertain: true
+    ignoreErrors:
+        - '#PHPDoc tag @var#'
+        
+services:
+    -
+        class: PHPStan\Rules\Cast\UselessCastRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: PHPStan\Rules\Functions\UnusedClosureUsesRule
+        tags:
+            - phpstan.rules.rule 

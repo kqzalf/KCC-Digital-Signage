@@ -10,14 +10,37 @@
         "vlucas/phpdotenv": "^5.5",
         "monolog/monolog": "^2.9"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpunit/phpunit": "^9.6",
+        "friendsofphp/php-cs-fixer": "^3.17",
+        "phpstan/phpstan": "^1.10"
+    },
     "autoload": {
         "psr-4": {
             "KCC\\DigitalSignage\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "KCC\\DigitalSignage\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "post-install-cmd": [
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ]
+        ],
+        "lint": [
+            "@php vendor/bin/phpcs",
+            "@php vendor/bin/php-cs-fixer fix --dry-run --diff"
+        ],
+        "lint-fix": [
+            "@php vendor/bin/phpcbf",
+            "@php vendor/bin/php-cs-fixer fix"
+        ],
+        "analyze": [
+            "@php vendor/bin/phpstan analyze"
+        ],
+        "test": "phpunit"
     }
 } 
