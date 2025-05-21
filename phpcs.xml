@@ -2,6 +2,15 @@
 <ruleset name="KCC Digital Signage Coding Standard">
     <description>KCC Digital Signage coding standard</description>
 
+    <!-- Show progress -->
+    <arg value="p"/>
+    <!-- Show sniff codes -->
+    <arg value="s"/>
+    <!-- Use colors -->
+    <arg name="colors"/>
+    <!-- Only check PHP files -->
+    <arg name="extensions" value="php"/>
+
     <!-- Paths to check -->
     <file>src</file>
     <file>tests</file>
@@ -10,6 +19,9 @@
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/cache/*</exclude-pattern>
     <exclude-pattern>*/logs/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/build/*</exclude-pattern>
+    <exclude-pattern>*/dist/*</exclude-pattern>
 
     <!-- Use PSR-12 as base -->
     <rule ref="PSR12"/>
@@ -47,4 +59,9 @@
 
     <!-- Enforce proper docblock usage -->
     <rule ref="Generic.Commenting.DocComment"/>
+
+    <!-- Ignore warnings for missing file-level docblocks -->
+    <rule ref="PEAR.Commenting.FileComment">
+        <severity>0</severity>
+    </rule>
 </ruleset> 
