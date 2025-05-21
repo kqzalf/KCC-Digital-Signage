@@ -59,7 +59,15 @@ jobs:
     - name: Run PHP-CS-Fixer
       run: |
         if [ -d "src" ]; then
-          vendor/bin/php-cs-fixer fix --dry-run --diff src/
+          vendor/bin/php-cs-fixer fix src/ --diff
+          if [ $? -eq 8 ]; then
+            echo "PHP-CS-Fixer found and fixed some issues."
+            git config --global user.name 'GitHub Actions'
+            git config --global user.email 'actions@github.com'
+            git add src/
+            git commit -m "style: Apply PHP CS Fixer changes" || echo "No changes to commit"
+            git push
+          fi
         else
           echo "Source directory missing. Skipping PHP-CS-Fixer."
         fi

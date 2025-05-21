@@ -57,18 +57,19 @@ $app->post('/api/upload', function (Request $request, Response $response) {
 
     try {
         $file = $uploadedFiles['file'];
-        $path = sprintf('%s/%s/%s/%s',
+        $path = sprintf(
+            '%s/%s/%s/%s',
             $_ENV['CONTENT_BASE_PATH'],
             $location,
             $orientation,
-            $type
+            $file->getClientFilename()
         );
 
         if (!is_dir($path)) {
             mkdir($path, 0755, true);
         }
 
-        $file->moveTo($path . '/' . $file->getClientFilename());
+        $file->moveTo($path);
 
         return $response->withJson(['success' => true]);
     } catch (\Exception $e) {

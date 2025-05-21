@@ -26,7 +26,7 @@ class Display
         }
 
         $files = array_diff(scandir($path), ['.', '..', 'index.php']);
-        $this->content = array_values(array_filter($files, function($file) {
+        $this->content = array_values(array_filter($files, function ($file) {
             return in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'mp4']);
         }));
     }
@@ -35,7 +35,8 @@ class Display
     {
         $base = $_ENV['CONTENT_BASE_PATH'] ?? __DIR__ . '/../../content';
         $orientation = $this->isVertical ? 'vertical' : 'horizontal';
-        return sprintf('%s/%s/%s/%s', 
+        return sprintf(
+            '%s/%s/%s/%s',
             $base,
             $this->location,
             $orientation,
