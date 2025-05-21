@@ -8,13 +8,13 @@
  * @returns Formatted date string
  */
 export function formatDate(date: Date): string {
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
 }
 
 /**
@@ -23,10 +23,10 @@ export function formatDate(date: Date): string {
  * @returns True if the URL is valid, false otherwise
  */
 export function isValidUrl(url: string): boolean {
-    try {
-        new URL(url);
-        return true;
-    } catch {
-        return false;
-    }
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
 } 
