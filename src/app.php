@@ -32,12 +32,20 @@ $jsonResponse = function (Response $response, mixed $data, int $status = 200): R
         ->withStatus($status);
 };
 
+// Helper function for error responses
+$errorResponse = function (Response $response, string $message, int $status = 404): Response {
+    $response->getBody()->write($message);
+    return $response
+        ->withHeader('Content-Type', 'text/html')
+        ->withStatus($status);
+};
+
 // Routes
 $app->get('/', function (Request $request, Response $response) use ($renderer): Response {
     return $renderer->render($response, 'dashboard.php');
 });
 
-$app->get('/display/{location}/{type}[/{orientation}]', function (Request $request, Response $response, array $args) use ($renderer): Response {
+$app->get('/display/{location}/{type}[/{orientation}]', function (Request $request, Response $response, array $args) use ($renderer, $errorResponse): Response {
     $location = $args['location'];
     $type = $args['type'];
     $isVertical = ($args['orientation'] ?? 'horizontal') === 'vertical';
@@ -48,10 +56,7 @@ $app->get('/display/{location}/{type}[/{orientation}]', function (Request $reque
             'display' => $display
         ]);
     } catch (\Exception $e) {
-        return $response
-            ->withStatus(404)
-            ->withHeader('Content-Type', 'text/html')
-            ->write('Content not found');
+        return $errorResponse($response, 'Content not found');
     }
 });
 

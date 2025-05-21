@@ -9,7 +9,7 @@ class Display
     private string $location;
     private string $contentType;
     private bool $isVertical;
-    /** @var array<int, string> */
+    /** @var array<int, string> $content */
     private array $content;
     private string $basePath;
 
@@ -36,10 +36,11 @@ class Display
         }
 
         $files = array_diff($scanResult, ['.', '..', 'index.php']);
-        /** @var array<int, string> */
-        $this->content = array_values(array_filter($files, function (string $file): bool {
+        /** @var array<int, string> $filteredFiles */
+        $filteredFiles = array_values(array_filter($files, function (string $file): bool {
             return in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'mp4'], true);
         }));
+        $this->content = $filteredFiles;
     }
 
     private function getBasePath(): string

@@ -8,4 +8,8 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
-        - identifier: missingType.generics 
+        -
+            message: '#PHPDoc tag @var#'
+            path: src/*
+        -
+            identifier: 'missingType.generics' 
